@@ -1,42 +1,57 @@
-import { Rocket, ShieldCheck } from 'lucide-react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import Spline from '@splinetool/react-spline'
+import { ArrowRight, Shield, Cloud } from 'lucide-react'
 
 export default function Hero() {
+  const { scrollY } = useScroll()
+  const y1 = useTransform(scrollY, [0, 400], [0, -30])
+  const y2 = useTransform(scrollY, [0, 400], [0, -60])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.7])
+
   return (
-    <section id="home" className="relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 via-white to-cyan-100 pointer-events-none" />
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/70 backdrop-blur px-3 py-1 text-xs text-slate-600 ring-1 ring-slate-200 shadow">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-            Trusted smart city partner
-          </div>
-          <h1 className="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
-            Building intelligent, sustainable cities with Auralis
-          </h1>
-          <p className="mt-4 text-slate-600 leading-relaxed">
-            Dgen Technologies powers the Auralis brand to deliver end‑to‑end smart city solutions—
-            from connected infrastructure to urban analytics—tailored for India’s next decade of growth.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#solutions" className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-5 py-3 text-white font-medium shadow hover:bg-indigo-700">
-              <Rocket className="h-4 w-4" /> Explore Solutions
-            </a>
-            <a href="#contact" className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-slate-800 font-medium ring-1 ring-slate-200 hover:bg-slate-50">
-              Talk to us
-            </a>
-          </div>
-        </div>
-        <div className="relative">
-          <div className="aspect-square w-full rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 p-1 shadow-lg">
-            <div className="h-full w-full rounded-xl bg-white grid grid-cols-2 gap-3 p-4">
-              <div className="rounded-lg bg-indigo-50" />
-              <div className="rounded-lg bg-cyan-50" />
-              <div className="rounded-lg bg-cyan-50" />
-              <div className="rounded-lg bg-indigo-50" />
+    <section className="relative">
+      {/* background accent gradients */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 right-1/4 h-72 w-72 rounded-full bg-indigo-400/20 blur-3xl" />
+        <div className="absolute -bottom-16 left-1/3 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 md:pt-16">
+        <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[70vh]">
+          <motion.div style={{ y: y1, opacity }} className="py-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/70 px-3 py-1 text-xs text-slate-600 backdrop-blur">
+              <Shield size={14} /> Secure • Scalable • Interoperable
             </div>
-          </div>
-          <div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full bg-indigo-200/60 blur-2xl" />
-          <div className="absolute -top-6 -left-6 h-20 w-20 rounded-full bg-cyan-200/60 blur-2xl" />
+            <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
+              Smart City Intelligence for a Connected India
+            </h1>
+            <p className="mt-4 text-base md:text-lg text-slate-600 leading-relaxed">
+              Auralis blends IoT, AI, and cloud to power safer, cleaner, and more efficient urban experiences.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="#/solutions"
+                className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-white shadow-lg shadow-indigo-500/20 transition hover:shadow-xl hover:translate-y-[-1px]"
+              >
+                Explore Solutions <ArrowRight className="transition group-hover:translate-x-0.5" size={18} />
+              </a>
+              <a
+                href="#/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-300/70 bg-white/70 px-5 py-3 text-slate-800 backdrop-blur hover:border-slate-400"
+              >
+                Talk to us <Cloud size={18} />
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div style={{ y: y2, opacity }} className="relative h-[60vh] md:h-[70vh] rounded-2xl overflow-hidden border border-slate-200/60 bg-white/30 backdrop-blur">
+            <Spline
+              scene="https://prod.spline.design/VyGeZv58yuk8j7Yy/scene.splinecode"
+              style={{ width: '100%', height: '100%' }}
+            />
+            {/* subtle gradient overlay for depth; allow interaction with pointer-events-none */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/10 to-transparent" />
+          </motion.div>
         </div>
       </div>
     </section>

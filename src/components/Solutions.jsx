@@ -1,54 +1,63 @@
-import { Building2, Cpu, Cloud, ShieldCheck, Globe } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Cpu, Cloud, Shield, Map } from 'lucide-react'
 
 const items = [
   {
-    icon: Building2,
-    title: 'Smart Infrastructure',
-    desc: 'Connected lighting, parking, and utilities with real‑time monitoring and control.',
-  },
-  {
     icon: Cpu,
-    title: 'IoT Platforms',
-    desc: 'Scalable device management, telemetry, and rules engine for city-scale deployments.',
+    title: 'Edge IoT Platform',
+    desc: 'Low-latency device orchestration, OTA updates, and secure telemetry at scale.',
+    accent: 'from-indigo-500 to-violet-500',
   },
   {
     icon: Cloud,
-    title: 'Urban Data Cloud',
-    desc: 'Unified data lake with dashboards, AI insights, and open data sharing layers.',
+    title: 'City Cloud & Analytics',
+    desc: 'Unified data fabric with real-time dashboards, alerts, and AI insights.',
+    accent: 'from-cyan-500 to-sky-500',
   },
   {
-    icon: ShieldCheck,
-    title: 'Safety & Compliance',
-    desc: 'CCTV integration, emergency response, and compliance-first governance tooling.',
+    icon: Map,
+    title: 'Urban Operations',
+    desc: 'Traffic, waste, environment, and utilities — interoperable and standards-driven.',
+    accent: 'from-emerald-500 to-teal-500',
   },
   {
-    icon: Globe,
-    title: 'Citizen Services',
-    desc: 'Mobile-first services for grievances, permits, and community engagement.',
+    icon: Shield,
+    title: 'Trust & Security',
+    desc: 'Privacy-by-design, device identity, and policy-driven access controls.',
+    accent: 'from-rose-500 to-orange-500',
   },
 ]
 
 export default function Solutions() {
   return (
-    <section id="solutions" className="relative py-20 bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Solutions for smarter cities</h2>
-          <p className="mt-3 text-slate-600">
-            Modular offerings under the Auralis brand help municipalities modernize faster with proven outcomes.
-          </p>
+    <section className="relative py-16 md:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(15,23,42,0.03),transparent_60%)]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Solutions</h2>
+          <p className="mt-3 text-slate-600">Modular capabilities that scale from pilot to city-wide deployment.</p>
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <div key={item.title} className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-              <div className="h-11 w-11 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 text-white flex items-center justify-center shadow">
-                <item.icon className="h-5 w-5" />
+        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {items.map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5, delay: i * 0.05 }}
+              className="group relative overflow-hidden rounded-2xl border border-slate-200/70 bg-white/70 p-5 backdrop-blur shadow-sm hover:shadow-md"
+            >
+              <div className={`absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br ${item.accent} opacity-20 blur-2xl`} />
+              <div className="relative">
+                <div className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${item.accent} text-white shadow`}>{
+                  <item.icon size={18} />
+                }</div>
+                <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+                <div className="mt-4 text-indigo-600 text-sm opacity-0 transition group-hover:opacity-100">Learn more →</div>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-slate-900">{item.title}</h3>
-              <p className="mt-2 text-sm text-slate-600 leading-relaxed">{item.desc}</p>
-              <div className="mt-4 text-sm font-medium text-indigo-600 opacity-0 group-hover:opacity-100 transition">Learn more →</div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

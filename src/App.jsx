@@ -1,39 +1,60 @@
+import { useEffect, useMemo, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Solutions from './components/Solutions'
+import About from './components/About'
+import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 function App() {
-  return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <Navbar />
-      <main>
-        <Hero />
-        <Solutions />
-        {/* About section */}
-        <section id="about" className="py-20 bg-slate-50">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
-            <div className="order-2 md:order-1">
-              <h2 className="text-3xl font-bold tracking-tight">About Auralis</h2>
-              <p className="mt-3 text-slate-600 leading-relaxed">
-                Auralis is the smart city solutions brand from Dgen Technologies. We combine IoT, cloud,
-                and urban analytics to help Indian cities become safer, cleaner, and more efficient.
-                Our approach is outcome-driven, interoperable, and aligned with national standards.
-              </p>
-              <ul className="mt-6 grid gap-2 text-sm text-slate-700">
-                <li>• Interoperable platforms that avoid vendor lock‑in</li>
-                <li>• Privacy-by-design and strong security posture</li>
-                <li>• Rapid pilot-to-scale execution model</li>
-              </ul>
-            </div>
-            <div className="order-1 md:order-2">
-              <div className="aspect-video rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 p-1 shadow-lg">
-                <div className="h-full w-full rounded-xl bg-white" />
+  const getRoute = () => {
+    const hash = window.location.hash.replace('#', '')
+    return hash || '/'
+  }
+
+  const [route, setRoute] = useState(getRoute())
+
+  useEffect(() => {
+    const onHashChange = () => setRoute(getRoute())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  const Page = useMemo(() => {
+    switch (route) {
+      case '/solutions':
+        return <Solutions />
+      case '/about':
+        return <About />
+      case '/contact':
+        return <Contact />
+      case '/':
+      default:
+        return (
+          <>
+            <Hero />
+            {/* subtle divider */}
+            <div className="relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.08),transparent_60%)]" />
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 opacity-80">
+                  {['IoT', 'AI', 'Cloud', 'Edge'].map((t) => (
+                    <div key={t} className="rounded-xl border border-slate-200/60 bg-white/70 backdrop-blur p-5 text-center text-sm font-medium text-slate-700 shadow-sm">
+                      {t} • Auralis
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
+          </>
+        )
+    }
+  }, [route])
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-indigo-200/60 selection:text-slate-900">
+      <Navbar route={route} />
+      <main>{Page}</main>
       <Footer />
     </div>
   )
